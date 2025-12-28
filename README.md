@@ -1,115 +1,170 @@
-# Lunar Lander — Double DQN (PyTorch)
+LunarLander-v3 — Deep Q-Learning from Scratch
 
-A compact Double-DQN implementation (PyTorch) that trains an agent to solve the OpenAI Gymnasium "LunarLander-v3" environment. This repository includes training and evaluation scripts, a saved model checkpoint, a replay buffer, a simple neural network, and utilities to record videos and plot training curves.
+This repository contains a from-scratch implementation of Deep Q-Learning (DQN) using PyTorch to solve the LunarLander-v3 environment from Gymnasium.
 
-Last updated: 2025-12-28
+The purpose of this project is not to showcase a fast solve using modern RL libraries, but to understand, debug, and stabilize DQN training dynamics on a physics-based control task.
 
-## Features
+Highlights
 
-- Double-DQN style target computation (online network selects action; target network evaluates)
-- Replay buffer with uniform sampling
-- Target network with periodic hard updates
-- Training loop and evaluation utilities
-- Save / load model checkpoint (dqn_lunarlander.pth included)
-- Evaluation recordings saved to `videos/`
-- Training reward plot `training_curve.png`
+DQN implemented from scratch (no RL frameworks)
 
-## Requirements
+Experience Replay Buffer
 
-This project was developed with Python 3.8+ and the following packages (see `requirements.txt`):
+Target Network
 
-- torch
-- gymnasium (LunarLander-v3)
-- box2d-py (or system-appropriate Box2D bindings)
-- numpy (<2)
-- matplotlib
-- pyyaml
+Double DQN target computation (decoupled action selection and evaluation)
 
-Note: main.py imports `gymnasium` as `gym`. If you encounter Box2D or rendering issues, install the Box2D extras for your environment (for example: `pip install gymnasium[box2d]` or `pip install box2d-py`).
+ε-greedy exploration with controlled decay
 
-## Quickstart
+Explicit separation of training and evaluation
 
-1. Clone the repo
+Modular and readable codebase
 
-   git clone https://github.com/narendrapatel6321-dotcom/Lunar-Lander.git
-   cd Lunar-Lander
+Reproducible training artifacts (model and plots)
 
-2. (Optional) Create and activate a virtual environment
+Why LunarLander?
 
-   python -m venv .venv
-   # macOS / Linux
-   source .venv/bin/activate
-   # Windows (PowerShell)
-   .\.venv\Scripts\Activate.ps1
+LunarLander is often treated as a “hello-world” environment in reinforcement learning.
+However, training DQN reliably on LunarLander is slow and unstable, which makes it useful for:
 
-3. Install dependencies
+understanding value overestimation
 
-   pip install -r requirements.txt
+debugging replay buffer and target updates
 
-4. Run the project
+studying exploration vs exploitation trade-offs
 
-   python main.py
+observing late-stage convergence behavior
 
-By default, `main.py` runs in evaluation mode (TRAIN = False), loads the checkpoint `dqn_lunarlander.pth`, and records evaluation episodes to the `videos/` directory.
+This project intentionally avoids PPO/SAC to expose DQN’s limitations and learning dynamics.
 
-## Training
+Repository Structure
 
-To train the agent:
+lunar_lander_dqn/
+├── agent.py    # DQN / Double DQN logic
+├── network.py   # Q-network definition
+├── replay_buffer.py # Experience replay buffer
+├── helpers.py   # train(), evaluate(), plot_rewards()
+├── main.py    # Entry point (train / eval switch)
+└── README.md
 
-- Open `main.py` and set `TRAIN = True`.
-- Adjust hyperparameters in the `Agent` constructor call if desired (learning rate, epsilon decay, etc.).
-- Run:
+Algorithm Details
 
-  python main.py
+Algorithm: DQN with target network
 
-Training (as currently configured) executes `train(agent, train_env, episodes=10000)`, saves the training rewards plot to `training_curve.png`, and saves the trained model to `dqn_lunarlander.pth`.
+Target computation: Double DQN
 
-Training can take significant time depending on hardware; reduce the number of episodes or tune hyperparameters for quicker experiments.
+Optimizer: Adam
 
-## Evaluation
+Learning rate: 5e-4
 
-When `TRAIN = False`, `main.py`:
+Batch size: 32
 
-- Loads `dqn_lunarlander.pth` (agent.load)
-- Wraps the evaluation environment with `RecordVideo` and saves videos to `videos/`
-- Runs `evaluate(agent, eval_env, episodes=5)`
+Replay buffer size: 100,000
 
-To change the number of evaluation episodes or recording behavior, edit `main.py`.
+Discount factor (γ): 0.99
 
-## Files / Project Structure
+Training frequency: every 4 environment steps
 
-- main.py                 — Entry point (toggle training/evaluation)
-- agent.py                — Agent class: networks, optimizer, train_step, save/load
-- network.py              — Simple neural network (PyTorch)
-- replay_buffer.py        — ReplayBuffer implementation
-- helpers.py              — train(), evaluate(), plotting utilities
-- requirements.txt        — Project dependencies
-- dqn_lunarlander.pth     — Saved model checkpoint (included)
-- training_curve.png      — Example training reward curve
-- videos/                 — Generated by evaluation recordings
+Target network update: every 2000 training steps
 
-## Key implementation details & hyperparameters
+Exploration strategy: ε-greedy with per-episode decay
 
-- Discount factor (gamma): 0.99
-- Optimizer: Adam
-- Learning rate: default used in `main.py` is 5e-4
-- Epsilon greedy: start=1.0, final=0.05, decay controlled by `epsilon_decay`
-- Replay buffer size: 100,000 (default)
-- Batch size: 32
-- Target network hard update frequency: 1000 steps
-- Loss: MSELoss
-- Gradient clipping: clip gradients to norm 1.0
+Final ε: 0.05
 
-Double-DQN behavior: online network selects the next action (argmax), and the target network provides the Q-value for that chosen action when computing the bootstrap target.
+Training Results
 
-## Notes & Troubleshooting
+The environment was successfully solved after approximately 9,600 episodes, which is consistent with known DQN behavior on LunarLander (slow but stable convergence).
 
-- If you get "gymnasium" vs "gym" import errors, install `gymnasium` and the Box2D extras. Some environments (platform or gym version) may require `box2d-py` or `Box2D`.
-- If video recording fails, ensure ffmpeg is installed on your system and that the rendering mode is supported.
-- To re-record evaluation videos, remove or rename the `videos/` folder or change the `name_prefix` in `main.py`.
+Training Curve
 
+PLACEHOLDER: training_curve.png
+(Insert reward vs episode plot here)
 
-## Contact
+Evaluation
 
-Repository owner: narendrapatel6321-dotcom
-GitHub: https://github.com/narendrapatel6321-dotcom/Lunar-Lander
+After training, the agent was evaluated using a fully greedy policy (ε = 0) with environment rendering enabled.
+
+Evaluation Video
+
+PLACEHOLDER: evaluation_video.mp4 or GIF
+(Insert rendered evaluation run here)
+
+During evaluation, the agent consistently achieved rewards in the 250–320 range with stable landings.
+
+How to Run
+Install dependencies
+
+pip install torch gymnasium box2d-py matplotlib
+
+Training mode
+
+In main.py, set:
+
+TRAIN = True
+
+Then run:
+
+python main.py
+
+This will:
+
+train the agent
+
+save the trained model
+
+save the training reward plot
+
+Evaluation mode (no training)
+
+In main.py, set:
+
+TRAIN = False
+
+Then run again:
+
+python main.py
+
+This will:
+
+load the saved model
+
+run evaluation episodes with rendering
+
+no learning occurs
+
+Key Observations
+
+Correct training logic matters more than network architecture
+
+DQN may show little progress for thousands of episodes before converging
+
+Exploration scheduling strongly affects late-stage performance
+
+Double DQN reduces overestimation but does not eliminate instability
+
+Policy-gradient methods (e.g. PPO) solve this task much faster
+
+Limitations
+
+DQN is not sample-efficient for this environment
+
+Training is slow on CPU-only hardware
+
+Results can vary across random seeds
+
+This implementation is intended as a learning and debugging exercise, not a production-ready RL solution.
+
+Possible Extensions
+
+PPO or SAC comparison on the same environment
+
+Robustness tests (gravity or wind variations)
+
+Reward shaping ablation study
+
+Custom control environments
+
+Final Note
+
+This project focuses on understanding reinforcement learning internals, not achieving leaderboard results.
+The primary value lies in the debugging process, training stability analysis, and algorithmic insight gained from implementing DQN end-to-end.
