@@ -1,5 +1,5 @@
-torch>=2.0
-gymnasium[other]>=0.29
+torch
+gym
 box2d-py
 numpy<2
 matplotlib
