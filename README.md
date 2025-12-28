@@ -46,8 +46,8 @@ The Q-network is a fully connected feedforward neural network that maps environm
 ## Training Results
 
 Training begins with high variance in episodic rewards due to exploration. As epsilon decays, the reward curve becomes more stable and trends upward, indicating that the agent learns a reliable landing policy.
-
-A visualization of episodic rewards is provided in the training_curve.png file.
+![Training curve](training_curve.png)
+A visualization of episodic rewards.
 
 ## Usage
 
