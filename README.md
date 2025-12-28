@@ -108,33 +108,8 @@ Double-DQN behavior: online network selects the next action (argmax), and the ta
 - If video recording fails, ensure ffmpeg is installed on your system and that the rendering mode is supported.
 - To re-record evaluation videos, remove or rename the `videos/` folder or change the `name_prefix` in `main.py`.
 
-## Contributing
-
-Contributions are welcome. Typical workflow:
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feat/my-feature`
-3. Commit changes: `git commit -m "Add feature"`
-4. Push branch and open a pull request
-
-Suggested improvements: add CLI flags, add tests for the replay buffer and training loop, add hyperparameter config files, include a license file, and add CI (GitHub Actions).
-
-## License
-
-No LICENSE file was detected in the repository. Add a LICENSE (for example MIT) if you want to make the project explicitly open-source.
-
-## Acknowledgements
-
-- OpenAI Gym / Gymnasium Lunar Lander environment
-- Any third-party assets used for visuals or audio (add attributions here if applicable)
 
 ## Contact
 
 Repository owner: narendrapatel6321-dotcom
 GitHub: https://github.com/narendrapatel6321-dotcom/Lunar-Lander
-
----
-
-If you'd like, I can (on your confirmation):
-- Commit this README.md directly to `main`, or create a new branch and push the file and open a PR (you will need to create the PR on GitHub).
-- Add an MIT LICENSE file and a minimal CLI wrapper for `main.py` so training/evaluation can be toggled with flags.
