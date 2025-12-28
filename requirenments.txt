@@ -1,0 +1,6 @@
+torch>=2.0
+gymnasium[other]>=0.29
+box2d-py
+numpy<2
+matplotlib
+pyyaml
