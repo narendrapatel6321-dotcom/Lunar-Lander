@@ -1,5 +1,4 @@
 import gymnasium as gym
-from gymnasium.wrappers import RecordVideo
 from agent import Agent
 from helpers import *
 
@@ -8,14 +7,8 @@ MODEL_PATH = "dqn_lunarlander.pth"
 
 if __name__ == "__main__":
     train_env = gym.make("LunarLander-v3")
-    #eval_env = gym.make("LunarLander-v3", render_mode="human")
-    eval_env = gym.make("LunarLander-v3", render_mode="rgb_array")
-    eval_env = RecordVideo(
-    eval_env,
-    video_folder="videos",
-    episode_trigger=lambda ep: True,  # record every episode
-    name_prefix="dqn_lunarlander"
-)
+    eval_env = gym.make("LunarLander-v3", render_mode="human")
+
     agent = Agent(train_env, lr=5e-4, epsilon_decay=0.0001)
 
     if TRAIN:
