@@ -14,7 +14,7 @@ if __name__ == "__main__":
     if TRAIN:
         print("Training mode")
 
-        rewards = train(agent, train_env, episodes=10000)
+        rewards = train(agent, train_env, episodes=10000, save_path=MODEL_PATH)
         plot_rewards(rewards, save_path="training_curve.png")
         agent.save(MODEL_PATH)
 

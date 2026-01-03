@@ -87,9 +87,9 @@ class Agent:
             self.epsilon - self.epsilon_decay
         )
 
-    def save(self, path="dqn_lunarlander.pth"):
+    def save(self, path):
         torch.save(self.online_net.state_dict(), path)
 
-    def load(self, path="dqn_lunarlander.pth"):
+    def load(self, path):
         self.online_net.load_state_dict(torch.load(path))
         self.target_net.load_state_dict(self.online_net.state_dict())

@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-def train(agent, env, episodes=3000):
+def train(agent, env,save_path ,episodes=3000):
     rewards = []
 
     for ep in range(episodes):
@@ -35,7 +35,7 @@ def train(agent, env, episodes=3000):
             )
 
         if ep % 500 == 0:
-            agent.save()
+            agent.save(path=save_path)
 
     return rewards
 
