@@ -21,6 +21,21 @@ Two environment variants are implemented to study the effect of external disturb
 
 > Apart from wind settings, **all hyperparameters and architecture remain identical** across both versions.
 
+## Hyperparameters
+
+| Parameter                  | Value        |
+|----------------------------|--------------|
+| Discount factor (γ)        | 0.99         |
+| Learning rate              | 1e-3         |
+| Replay buffer capacity     | 100,000      |
+| Batch size                 | 32           |
+| Target network update freq | 1000 steps   |
+| Initial ε                  | 1.0          |
+| ε decay                    | 0.0001       |
+| Minimum ε                  | 0.05         |
+| Gradient update frequency  | Every 4 steps |
+| Gradient clipping          | 1.0 (L2 norm) |
+
 ---
 
 ## Algorithm Overview
@@ -90,20 +105,16 @@ The Q-network is a fully connected feedforward neural network that maps environm
 pip install -r requirements.txt
 ```
 
-### Train — Version 1 (No Wind)
+### Version 1 (No Wind)
 ```bash
 python lunarlander_V1.py
 ```
 
-### Train — Version 2 (Wind Enabled)
+### Version 2 (Wind Enabled)
 ```bash
 python lunarlander_V2.py
 ```
 
-### Resume Training (Warm Start)
-If a saved model file exists, training resumes from the latest checkpoint automatically.
-
----
 
 ## Saved Models
 
