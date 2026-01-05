@@ -3,12 +3,11 @@ from agent import Agent
 from helpers import *
 
 TRAIN = False
-MODEL_PATH = "dqn_lunarlander.pth"
+MODEL_PATH = "dqn_lunarlander_v1.pth"
 
 if __name__ == "__main__":
     train_env = gym.make("LunarLander-v3")
     eval_env = gym.make("LunarLander-v3", render_mode="human")
-
     agent = Agent(train_env, lr=5e-4, epsilon_decay=0.0001)
 
     if TRAIN:

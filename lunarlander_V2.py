@@ -8,8 +8,8 @@ MODEL_PATH = "dqn_lunarlander_v2.pth"
 
 if __name__ == "__main__":
     train_env = gym.make("LunarLander-v3",enable_wind=True, wind_power=15.0, turbulence_power=1.5)
-    eval_env = gym.make("LunarLander-v3", render_mode="human", enable_wind=True, wind_power=15.0, turbulence_power=1.5)
-
+    eval_env = gym.make("LunarLander-v3", render_mode='human', enable_wind=True, wind_power=15.0, turbulence_power=1.5)
+    
     agent = Agent(train_env, lr=5e-4, epsilon_decay=0.0001)
 
     if TRAIN:
