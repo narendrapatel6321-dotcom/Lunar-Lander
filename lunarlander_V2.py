@@ -1,5 +1,4 @@
 import gymnasium as gym
-from gymnasium.wrappers import RecordVideo
 from agent import Agent
 from helpers import *
 
@@ -16,7 +15,7 @@ if __name__ == "__main__":
         print("Training mode")
 
         rewards = train(agent, train_env, episodes=10000,save_path=MODEL_PATH)
-        plot_rewards(rewards, save_path="training_curve_model2.png")
+        plot_rewards(rewards, save_path="assets/training_curve_model2.png")
         agent.save(path = MODEL_PATH)
 
     else:
