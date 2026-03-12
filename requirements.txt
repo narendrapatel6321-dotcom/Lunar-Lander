@@ -1,5 +1,5 @@
 torch
-gym
+gymnasium
 box2d-py
 numpy<2
 matplotlib
